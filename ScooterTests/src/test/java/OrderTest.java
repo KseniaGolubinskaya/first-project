@@ -42,7 +42,7 @@ public class OrderTest {
         this.courierComment = courierComment;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "{index}. Тест: {0} {1}")
     public static Object[][] GetQuestionsAndAnswers() {
         return new Object[][]{
             {
@@ -72,7 +72,7 @@ public class OrderTest {
 
     @Before
     public void Before() {
-        webDriver = getFireFoxDriver();
+        webDriver = getChromeDriver();
         webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         webDriver.get("https://qa-scooter.praktikum-services.ru");
     }
