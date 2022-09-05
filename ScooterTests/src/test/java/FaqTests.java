@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pom.MainPage;
+import scooter.pageobjects.MainPage;
 
 import java.util.concurrent.TimeUnit;
 

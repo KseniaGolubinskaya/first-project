@@ -1,4 +1,4 @@
-package pom;
+package scooter.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,27 +13,22 @@ public class RentPage {
      * Поле "Когда привезти самокат"
      */
     private final By dateField = By.xpath("//input[@placeholder = '* Когда привезти самокат']");
-
     /**
     * Поле "Срок аренды"
     */
     private final By rentTermField = By.xpath("//div[text() = '* Срок аренды']");
-
     /**
      * Поле "Комментарий для курьера"
      */
     private final By commentForCourierField = By.xpath("//input[@placeholder = 'Комментарий для курьера']");
-
     /**
      * Кнопка "Заказать"
      */
     private final By buttonOrderRent = By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Заказать']");
-
     /**
      * Кнопка "Да" во всплывающем окне "Хотите оформить заказ?"
      */
     private final By buttonYes = By.xpath("//button[@class = 'Button_Button__ra12g Button_Middle__1CSJM' and text() = 'Да']");
-
     private final By orderStatusDiv = By.xpath("//div[@class='Order_ModalHeader__3FDaJ' and contains(text(), 'Заказ оформлен')]");
 
     public RentPage(WebDriver webDriver) {
@@ -48,7 +43,6 @@ public class RentPage {
         webDriver.findElement(dateField).sendKeys(dateFormatter.format(dateToSet));
 //        webDriver.findElement(By.className("Order_Header__BZXOb")).click();
     }
-
     /**
      * Клик по полю "Срок аренды"
      */
@@ -58,7 +52,6 @@ public class RentPage {
             .findElement(By.xpath("//div[text() = '" + rentTermValue + "']"))
             .click();
     }
-
     /**
      * Клик по чекбоксу в поле "Цвет самоката"
      */
@@ -67,22 +60,44 @@ public class RentPage {
             .findElement(By.xpath("//*[contains(text(), '" + colorValue + "')]"))
             .click();
     }
-
-
+    /**
+     * Заполнение поля "Комментарий для курьера"
+     */
     public void setCourierComment(String comment) {
         webDriver.findElement(commentForCourierField).sendKeys(comment);
     }
 
+    /**
+     * Клик по кнопке "Заказать"
+     */
     public void clickOrderButton() {
         webDriver.findElement(buttonOrderRent).click();
     }
 
+    /**
+     * Клик по кнопке "Да" во всплывающем окне "Хотите оформить заказ?"
+     */
     public void clickConfirm() {
         webDriver.findElement(buttonYes).click();
     }
 
+    /**
+     * Отображение окна с подтверждением заказа
+     */
     public boolean orderCreatedSuccessfully() {
         return webDriver.findElements(orderStatusDiv).size() == 1;
+    }
+
+    /**
+     * Заполнение формы на странице "Про аренду"
+     */
+    public void setAboutRent(Date dateToSet, String rentTermValue, String colorValue, String comment) {
+        setDeliveryDate(dateToSet);
+        selectScooterColor(colorValue);
+        setRentTerm(rentTermValue);
+        setCourierComment(comment);
+        clickOrderButton();
+        clickConfirm();
     }
 }
 

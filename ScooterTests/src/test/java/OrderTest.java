@@ -8,9 +8,9 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import pom.MainPage;
-import pom.OrderPage;
-import pom.RentPage;
+import scooter.pageobjects.MainPage;
+import scooter.pageobjects.OrderPage;
+import scooter.pageobjects.RentPage;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -72,7 +72,7 @@ public class OrderTest {
 
     @Before
     public void Before() {
-        webDriver = getChromeDriver();
+        webDriver = getFireFoxDriver();
         webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         webDriver.get("https://qa-scooter.praktikum-services.ru");
     }
@@ -84,24 +84,14 @@ public class OrderTest {
         mainPage.clickOrderButtonTop();
 
         OrderPage orderPage = new OrderPage(webDriver);
-        orderPage.setName(name);
-        orderPage.setSurname(surname);
-        orderPage.setAddress(address);
-        orderPage.setStation(station);
-        orderPage.setPhoneNumber(phoneNumber);
-        orderPage.clickOnNextButton();
+        orderPage.setScooterFor(name, surname, address, station, phoneNumber);
 
         RentPage rentPage = new RentPage(webDriver);
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.DATE, deliveryDateOffset);
-        rentPage.setDeliveryDate(c.getTime());
-        rentPage.selectScooterColor(scooterColor);
-        rentPage.setRentTerm(rentTerm);
-        rentPage.setCourierComment(courierComment);
+        rentPage.setAboutRent(c.getTime(), rentTerm, scooterColor, courierComment);
 
-        rentPage.clickOrderButton();
-        rentPage.clickConfirm();
         boolean orderCreatedSuccessfully = rentPage.orderCreatedSuccessfully();
 
         Assert.assertTrue("Заказ не создался", orderCreatedSuccessfully);
